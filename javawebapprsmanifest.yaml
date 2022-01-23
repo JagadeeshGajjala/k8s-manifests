@@ -1,0 +1,34 @@
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: javawebapprc
+  namespace: flipkart-ns
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: javawebapp
+  template:
+    metadata:
+      name: javawebapppod4
+      labels:
+        app: javawebapps
+    spec:
+      containers:
+      - name: javawebappcontainer
+        image: dockerhandson/java-web-app:1
+        ports:
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: javawebappsvc
+  namespace: flipkart-ns
+spec:
+  type: NodePort
+  selector:
+    app: javawebapps
+  ports:
+  - port: 80
+    targetPort: 8080
