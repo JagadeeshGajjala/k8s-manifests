@@ -14,4 +14,4 @@ spec:
   - name: javawebappcontainer2
     image: dockerhandson/java-web-app:1
     ports:
-    - containerPort: 8081
+    - containerPort: 8081    
