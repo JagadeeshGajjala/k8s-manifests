@@ -1,0 +1,37 @@
+# preferredDuringSchedulingIgnoredDuringExecution(Soft Rule)   
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: javawebapp
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: javawebapp
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  minReadySeconds: 60
+  template:
+    metadata:
+      name: javawebapp
+      labels:
+        app: javawebapp
+    spec:
+      affinity:
+        nodeAffinity:
+         preferredDuringSchedulingIgnoredDuringExecution:
+         - weight: 1
+           preference:
+            matchExpressions:
+            - key: name
+              operator: In
+              values:
+              - workerone
+      containers:
+      - name: javawebapp
+        image: dockerhandson/java-web-app:3
+        ports:
+        - containerPort: 8080
